@@ -1,6 +1,6 @@
 # Crawler
 ### Task #2
-[[pptx]](https://www.dropbox.com/s/ay7b92bkjjng9yi/Task%202.pptx?dl=0) [[repository]](https://github.com/Andrew414/crawlertask)
+[[pptx]](https://www.dropbox.com/s/ay7b92bkjjng9yi/Task%202.pptx?dl=0) [[repository]](https://github.com/Andrew414/crawlertask) [[russian]](https://github.com/Andrew414/crawlertask/blob/master/README.rus.md)
 
 ### Description
 You need to implement a [Web Crawler](https://en.wikipedia.org/wiki/Web_crawler) able to download wikipedia sites using multi-threading/multi-processing. Your crawler should be able to download the [small wikipedia sites](https://en.wikipedia.org/wiki/Template:Wikipedias). You need to choose one [wikipedia language edition](https://en.wikipedia.org/wiki/Wikipedia#Language_editions) and put it to `README.md` file in your local folder in repository. Please choose some edition that has more than 100 pages to make some time/performance measures possible.
