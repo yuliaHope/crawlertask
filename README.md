@@ -5,25 +5,25 @@
 ### Description
 You need to implement a [Web Crawler](https://en.wikipedia.org/wiki/Web_crawler) able to download wikipedia sites using multi-threading/multi-processing. Your crawler should be able to download the [small wikipedia sites](https://en.wikipedia.org/wiki/Template:Wikipedias). You need to choose one [wikipedia language edition](https://en.wikipedia.org/wiki/Wikipedia#Language_editions) and put it to `README.md` file in your local folder in repository. Please choose some edition that has more than 100 pages to make some time/performance measures possible.
 
-Crawler should perform a multi-threaded [BFS](https://en.wikipedia.org/wiki/Breadth-first_search). It should start from the main page, parse it to find all links, drop all of them that lead outside of that local wikipedia edition and add all left links to the processing queue. All pages should then be saved to disk. Some optimizations that are valid only for wikipedia can be used, for example, all `HTTP` `GET` parameters can be dropped, all links that lead to `index.php` (e.g. [https://en.wikipedia.org/w/index.php?title=Star_Wars&action=edit](https://en.wikipedia.org/w/index.php?title=Star_Wars&action=edit)) can also be dropped, etc.
+Crawler should perform a multi-threaded [BFS](https://en.wikipedia.org/wiki/Breadth-first_search). It should start from the main page, parse it to find all links, drop all of them that lead outside of that local wikipedia edition and add all left links to the processing queue. All pages should then be saved to disk. Some wikipedia-related optimizations should be used, for example, all `HTTP` `GET` parameters can be dropped, all links that lead to `index.php` (e.g. [https://en.wikipedia.org/w/index.php?title=Star_Wars&action=edit](https://en.wikipedia.org/w/index.php?title=Star_Wars&action=edit)) can also be dropped, etc. 
 
-Pictures, CSS styles, templates and other resources that are not wikipedia pages should not be downloaded.
+Pictures, CSS styles, templates, service pages and other resources that are not wikipedia articles should not be downloaded.
 
 ### Additional tasks
 There are four additional tasks:
 * Add settings to Crawler
- * Your Crawler should use some configuration passed with config file or parameters to be able to download different sites:
-  * For example, some sites (like Wikipedia) have own URLs for different pages. Some another (like [fpmi.bsu.by](http://fpmi.bsu.by/)) have one URL for all pages and pages are distinguished only by `HTTP` `GET` parameters. For example, both http://fpmi.bsu.by/main.aspx?guid=18751 and http://fpmi.bsu.by/main.aspx?guid=21081 URLs point to `main.aspx` page, but the content is different because of the `guid` parameter
-  * Some sites process different URLs as same URLs. For example, both http://fpmi.bsu.by/main.aspx?guid=18751 and http://fpmi.bsu.by/ru/main.aspx?guid=18751 lead to the same page, but their URLs differ
-  * Some sites see the difference between UPCASE and lowcase in URLs, some do not
-  * Sometimes pictures are important and should be downloaded, sometimes not
- * Your Crawler should be aware of all these possible tweaks and should provide a way of such fine-tuning of parsing engine (how to convert the URL, which parts of it should be dropped or not, which pages should not be processed, etc).
+  * Your Crawler should use some configuration passed with config file or parameters to be able to download different sites:
+    * For example, some sites (like Wikipedia) have own URLs for different pages. Some another (like [fpmi.bsu.by](http://fpmi.bsu.by/)) have one URL for all pages and pages are distinguished only by `HTTP` `GET` parameters. For example, both http://fpmi.bsu.by/main.aspx?guid=18751 and http://fpmi.bsu.by/main.aspx?guid=21081 URLs point to `main.aspx` page, but the content is different because of the `guid` parameter
+    * Some sites process different URLs as same URLs. For example, both http://fpmi.bsu.by/main.aspx?guid=18751 and http://fpmi.bsu.by/ru/main.aspx?guid=18751 lead to the same page, but their URLs differ
+    * Some sites see the difference between UPCASE and lowcase in URLs, some do not
+    * Sometimes pictures are important and should be downloaded, sometimes not
+  * Your Crawler should be aware of all these possible tweaks and should provide a way of such fine-tuning of parsing engine (how to convert the URL, which parts of it should be dropped or not, which pages should not be processed, etc).
 * Add performance measurement to your task
- * This is needed to compare the speed of downloading (working with network), parsing (working with CPU) and saving (working with Disk)
+  * This is needed to compare the speed of downloading (working with network), parsing (working with CPU) and saving (working with Disk)
 * Add GUI to your task
- * GUI should show the general statistics, should provide possibilities to control the download process (start/pause it, select the site), should provide the performance statistics and access to settings if you implement them
+  * GUI should show the general statistics, should provide possibilities to control the download process (start/pause it, select the site), should provide the performance statistics and access to settings if you implement them
 * Demonstrate the archive of the downloaded website
- * The archive should not be committed, please show it during classes
+  * The archive should not be committed, please show it during classes
 
 ### Github repository
 [Github repository](https://github.com/Andrew414/crawlertask) consists of one main [`README.md`](https://github.com/Andrew414/crawlertask/blob/master/README.md) page and fourteen personal folders. You need to fork the repository and make changes in your local folder only. All local folders contain an empty `.gitignore` file that you need to fill in with your project's temp files. Also, for this task, you need to create your own `README.md` file with the link to your own chosen wikipedia edition. The rest of the files should be your code and project files.
