@@ -1,15 +1,9 @@
-"""
-
-Prerequisites:
-pip install requests
-pip install beautifulsoup4
-"""
 import collections
 import argparse
 
 from timeit import default_timer
 from urllib.parse import urldefrag, urljoin, urlparse
-from threading import Thread, active_count
+from threading import Thread, active_count, RLock
 import time
 
 import bs4
@@ -18,6 +12,8 @@ import requests
 wrong_files = []
 remove_http_get = False
 pages_q = collections.deque()
+
+lock = RLock()
 
 
 def crawler(page_queue, pages, failed, crawled, domain):
@@ -43,8 +39,10 @@ def crawler(page_queue, pages, failed, crawled, domain):
         pages_q.append([response.text, url])
         links = get_links(url, domain, soup)
         for link in links:
+            lock.acquire()
             if not url_in_list(link, crawled) and not url_in_list(link, page_queue):
                 page_queue.append(link)
+            lock.release()
     print('{0} pages crawled, {1} links failed.'.format(pages, failed))
 
 
@@ -55,6 +53,8 @@ def get_links(page_url, domain, soup):
     for a in soup.select('a[href]'):
         link = urldefrag(a.attrs.get('href'))[0]
         if link:
+            if link[-1] == '/':
+                link = link[:-1]
             for w_file in wrong_files:
                 if link.find(w_file) >= 0:
                     bad_flag = True
@@ -65,6 +65,8 @@ def get_links(page_url, domain, soup):
             if remove_http_get:
                 link = link.split('?')[0]
             link = link if bool(urlparse(link).netloc) else urljoin(page_url, link)
+            if 'www.' in link:
+                link = link.replace('www.', '')
             if same_domain(urlparse(link).netloc, domain):
                 links.append(link)
     return links
@@ -80,10 +82,12 @@ def page_handler(response_text, url, i):
 
 def split_domain(domain):
     count = domain.count('.')
-    if count > 3:
+    if count >= 2 and not domain.split('.')[-3] == 'www':
         return domain.split('.')[-3] + '.' + domain.split('.')[-2] + '.' + domain.split('.')[-1]
-    elif count > 1:
+    elif count:
         return domain.split('.')[-2] + '.' + domain.split('.')[-1]
+    else:
+        return ''
 
 
 def same_domain(netloc1, netloc2):
@@ -132,9 +136,9 @@ def main():
     for _ in range(THREADS_COUNT):
         thread_ = Thread(target=crawler, args=(page_queue, pages, failed, crawled, domain))
         thread_.start()
-        time.sleep(0.5)
+        time.sleep(1)
 
-    while active_count() > 1:
+    while active_count() > 1 or len(pages_q):
         if len(pages_q):
             resp_data = pages_q.popleft()
             thread = Thread(target=page_handler, args=(resp_data[0], resp_data[1], i))
